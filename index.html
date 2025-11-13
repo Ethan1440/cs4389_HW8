@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Demo Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:2rem;max-width:600px}
+    form{display:grid;gap:1rem}
+    label{display:grid;gap:.35rem}
+    input[type="text"],input[type="password"]{padding:.6rem;border:1px solid #ccc;border-radius:.4rem}
+    button{padding:.7rem 1rem;border:0;border-radius:.4rem;background:#333;color:#fff;cursor:pointer}
+    .warning{color:#b00}
+  </style>
+</head>
+<body>
+  <h1>Login</h1>
+
+  <!-- action="" posts to same page; method=GET puts fields into the query string -->
+  <form action="" method="get" autocomplete="off">
+    <label>
+      Name
+      <input type="text" name="name" placeholder="username" required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" placeholder="password" required />
+    </label>
+
+    <!-- hidden field (attacker-controlled token, campaign id, etc.) -->
+    <input type="hidden" name="token" value="attackerHiddenValue123" />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Echo back query parameters so you can see the captured values -->
+  <pre id="echo"></pre>
+  <script>
+    const p = new URLSearchParams(location.search);
+    if ([p.keys()].length) {
+      document.getElementById('echo').textContent =
+        'Captured query:\n' + location.search + '\n\nParsed:\n' +
+        JSON.stringify(Object.fromEntries(p.entries()), null, 2);
+    }
+  </script>
+</body>
+</html>
